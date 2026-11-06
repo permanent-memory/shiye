@@ -1,0 +1,112 @@
+{
+  "id": "xbiquge",
+  "kind": "novel",
+  "name": "新笔趣阁",
+  "lang": "zh-CN",
+  "baseUrl": "https://www.xbiquge.bz",
+  "direct": true,
+  "headers": {
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.0.0 Safari/537.36"
+  },
+  "bookIdPattern": "/book/(\\d+)/",
+  "bookIdPatterns": [
+    "/books_(\\d+)/"
+  ],
+  "search": {
+    "url": "/search.html",
+    "method": "POST",
+    "body": "s={{key}}",
+    "unsupported": true,
+    "unsupportedMessage": "该源匿名搜索需要登录，已提供分类发现与阅读",
+    "rules": {
+      "list": ".txt-list li",
+      "name": ".s2 a@text",
+      "url": ".s2 a@href",
+      "author": ".s5 a, .s4@text"
+    }
+  },
+  "detail": {
+    "url": "/book/{{id}}/",
+    "catalogUrl": "/book/{{id}}/ls1.html",
+    "catalogUrlRule": "a:contains(\"章节目录\")@href",
+    "rules": {
+      "name": "meta[property=\"og:novel:book_name\"]@content",
+      "author": "meta[property=\"og:novel:author\"]@content",
+      "cover": "meta[property=\"og:image\"]@content",
+      "intro": "meta[property=\"og:description\"]@content",
+      "category": "meta[property=\"og:novel:category\"]@content",
+      "status": "meta[property=\"og:novel:status\"]@content",
+      "updateTime": "meta[property=\"og:novel:update_time\"]@content",
+      "latestChapter": "meta[property=\"og:novel:latest_chapter_name\"]@content"
+    }
+  },
+  "catalog": {
+    "list": ".section-list a",
+    "name": "@text",
+    "url": "@href",
+    "pages": {
+      "list": "select option",
+      "url": "@value"
+    },
+    "sortBy": "chapterNumber"
+  },
+  "content": {
+    "container": "div.word_read",
+    "decodeBase64Calls": true,
+    "removeSelectors": "script, style, .read_btn, h3, p:contains(\"请勿开启\"), p:contains(\"相邻推荐\")",
+    "title": ".word_read h3@text",
+    "removeLinesMatching": [
+      "三秒记住",
+      "本站网址",
+      "www\\.xbiquge\\.bz",
+      "请勿开启浏览器阅读模式",
+      "^相邻推荐:"
+    ]
+  },
+  "discover": {
+    "categories": [
+      {
+        "id": "1",
+        "name": "玄幻修真"
+      },
+      {
+        "id": "2",
+        "name": "重生穿越"
+      },
+      {
+        "id": "3",
+        "name": "都市小说"
+      },
+      {
+        "id": "4",
+        "name": "军史小说"
+      },
+      {
+        "id": "5",
+        "name": "网游小说"
+      },
+      {
+        "id": "6",
+        "name": "科幻小说"
+      },
+      {
+        "id": "7",
+        "name": "灵异小说"
+      },
+      {
+        "id": "8",
+        "name": "其他小说"
+      }
+    ],
+    "pagePattern": "/fenlei/lastupdate_{id}_0_0_{page}.html",
+    "pageSize": 10,
+    "upstreamPageSize": 30,
+    "resolveCovers": true,
+    "rules": {
+      "list": ".txt-list-row3 li",
+      "name": ".s2 a@text",
+      "url": ".s2 a@href",
+      "cover": "img@src"
+    }
+  }
+}

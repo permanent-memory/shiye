@@ -1,0 +1,55 @@
+{
+  "name": "novel-web-codex",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node server.js",
+    "desktop": "electron .",
+    "desktop:pack": "electron-builder --config electron-builder.config.cjs --win portable --x64"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "cheerio": "1.0.0"
+  },
+  "devDependencies": {
+    "electron": "^45.2.3",
+    "electron-builder": "^26.18.0"
+  },
+  "main": "electron/main.js",
+  "description": "拾页 · 本地小说阅读器",
+  "author": "拾页",
+  "license": "UNLICENSED",
+  "build": {
+    "appId": "com.shiye.reader",
+    "productName": "拾页",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "server.js",
+      "browser.js",
+      "electron/**/*",
+      "public/**/*",
+      "sources/*.json",
+      "package.json",
+      "direct-request.js"
+    ],
+    "win": {
+      "target": [
+        {
+          "target": "portable",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "signExecutable": false
+    },
+    "portable": {
+      "artifactName": "Shiye-${version}-portable.exe",
+      "useZip": true
+    }
+  }
+}

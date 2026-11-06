@@ -1,0 +1,665 @@
+{
+  "id": "linovelib",
+  "name": "哔哩轻小说",
+  "lang": "zh-CN",
+  "baseUrl": "https://www.linovelib.com",
+  "headers": {
+    "Accept-Language": "zh-CN,zh;q=0.9"
+  },
+  "bookIdPattern": "/novel/(\\d+)",
+  "search": {
+    "url": "/S6/",
+    "method": "POST",
+    "rules": {
+      "list": ".search-result-list",
+      "name": ".tit a@text",
+      "url": ".tit a@href",
+      "author": ".bookinfo a@text"
+    },
+    "body": "searchkey={{key}}",
+    "needsBrowser": true,
+    "blockedUrls": [
+      "*://hm.baidu.com/*"
+    ],
+    "readyCookie": "jieqiSearchJs"
+  },
+  "discover": {
+    "needsBrowser": true,
+    "browserNavigation": true,
+    "readySelector": ".store_collist .bookbox",
+    "emptySelector": ".store_collist",
+    "titlePattern": "轻小说文库",
+    "readyTextPattern": "[^|\\n]+\\|[^|\\n]+\\|[^|\\n]+\\|\\s*\\d{4}-\\d{2}-\\d{2}",
+    "pageSize": 20,
+    "upstreamPageSize": 30,
+    "pagePattern": "/wenku/{sort}_{theme}_{progress}_{anime}_{region}_{imprint}_0_{words}_{page}_{updated}.html",
+    "categories": [
+      {
+        "id": "monthvisit",
+        "name": "月点击榜",
+        "facets": {
+          "sort": "monthvisit"
+        }
+      },
+      {
+        "id": "weekvisit",
+        "name": "周点击榜",
+        "facets": {
+          "sort": "weekvisit"
+        }
+      },
+      {
+        "id": "monthvote",
+        "name": "月推荐榜",
+        "facets": {
+          "sort": "monthvote"
+        }
+      },
+      {
+        "id": "weekvote",
+        "name": "周推荐榜",
+        "facets": {
+          "sort": "weekvote"
+        }
+      },
+      {
+        "id": "goodnum",
+        "name": "收藏榜",
+        "facets": {
+          "sort": "goodnum"
+        }
+      },
+      {
+        "id": "newhot",
+        "name": "新书榜",
+        "facets": {
+          "sort": "postdate"
+        }
+      },
+      {
+        "id": "postdate",
+        "name": "最新入库",
+        "facets": {
+          "sort": "postdate"
+        }
+      },
+      {
+        "id": "lastupdate",
+        "name": "最近更新",
+        "facets": {
+          "sort": "lastupdate"
+        }
+      },
+      {
+        "id": "monthflower",
+        "name": "月鲜花榜",
+        "facets": {
+          "sort": "monthflower"
+        }
+      },
+      {
+        "id": "weekflower",
+        "name": "周鲜花榜",
+        "facets": {
+          "sort": "weekflower"
+        }
+      }
+    ],
+    "rules": {
+      "list": ".store_collist .bookbox",
+      "name": ".bookname a@text",
+      "url": ".bookname a@href",
+      "cover": ".bookimg img@data-original",
+      "author": {
+        "selector": ".bookilnk@text",
+        "split": "|",
+        "index": 0
+      },
+      "imprint": {
+        "selector": ".bookilnk@text",
+        "split": "|",
+        "index": 1
+      },
+      "status": {
+        "selector": ".bookilnk@text",
+        "split": "|",
+        "index": 2
+      },
+      "updated": {
+        "selector": ".bookilnk@text",
+        "split": "|",
+        "index": 3
+      }
+    },
+    "facets": [
+      {
+        "id": "sort",
+        "name": "排序",
+        "default": "monthvisit",
+        "options": [
+          {
+            "value": "weekvisit",
+            "label": "周点击"
+          },
+          {
+            "value": "monthvisit",
+            "label": "月点击"
+          },
+          {
+            "value": "weekvote",
+            "label": "周推荐"
+          },
+          {
+            "value": "monthvote",
+            "label": "月推荐"
+          },
+          {
+            "value": "weekflower",
+            "label": "周鲜花"
+          },
+          {
+            "value": "monthflower",
+            "label": "月鲜花"
+          },
+          {
+            "value": "goodnum",
+            "label": "收藏数"
+          },
+          {
+            "value": "lastupdate",
+            "label": "更新时间"
+          },
+          {
+            "value": "postdate",
+            "label": "入库时间"
+          }
+        ]
+      },
+      {
+        "id": "region",
+        "name": "文库地区",
+        "default": "0",
+        "options": [
+          {
+            "value": "0",
+            "label": "不限"
+          },
+          {
+            "value": "1",
+            "label": "日本轻小说"
+          },
+          {
+            "value": "2",
+            "label": "华文轻小说"
+          },
+          {
+            "value": "3",
+            "label": "Web轻小说"
+          },
+          {
+            "value": "4",
+            "label": "轻改漫画"
+          },
+          {
+            "value": "5",
+            "label": "韩国轻小说"
+          }
+        ]
+      },
+      {
+        "id": "imprint",
+        "name": "文库",
+        "default": "0",
+        "options": [
+          {
+            "value": "0",
+            "label": "不限"
+          },
+          {
+            "value": "1",
+            "label": "电击文库"
+          },
+          {
+            "value": "2",
+            "label": "富士见文库"
+          },
+          {
+            "value": "3",
+            "label": "角川文库"
+          },
+          {
+            "value": "4",
+            "label": "MF文库J"
+          },
+          {
+            "value": "5",
+            "label": "Fami通文库"
+          },
+          {
+            "value": "6",
+            "label": "GA文库"
+          },
+          {
+            "value": "7",
+            "label": "HJ文库"
+          },
+          {
+            "value": "8",
+            "label": "一迅社"
+          },
+          {
+            "value": "9",
+            "label": "集英社"
+          },
+          {
+            "value": "10",
+            "label": "小学馆"
+          },
+          {
+            "value": "11",
+            "label": "讲谈社"
+          },
+          {
+            "value": "12",
+            "label": "少女文库"
+          },
+          {
+            "value": "13",
+            "label": "其他文库"
+          },
+          {
+            "value": "18",
+            "label": "游戏剧本"
+          }
+        ]
+      },
+      {
+        "id": "theme",
+        "name": "作品主题",
+        "default": "0",
+        "options": [
+          {
+            "value": "0",
+            "label": "不限"
+          },
+          {
+            "value": "64",
+            "label": "恋爱"
+          },
+          {
+            "value": "48",
+            "label": "后宫"
+          },
+          {
+            "value": "63",
+            "label": "校园"
+          },
+          {
+            "value": "27",
+            "label": "百合"
+          },
+          {
+            "value": "26",
+            "label": "转生"
+          },
+          {
+            "value": "47",
+            "label": "异世界"
+          },
+          {
+            "value": "15",
+            "label": "奇幻"
+          },
+          {
+            "value": "61",
+            "label": "冒险"
+          },
+          {
+            "value": "222",
+            "label": "欢乐向"
+          },
+          {
+            "value": "231",
+            "label": "女性视角"
+          },
+          {
+            "value": "219",
+            "label": "龙傲天"
+          },
+          {
+            "value": "96",
+            "label": "魔法"
+          },
+          {
+            "value": "67",
+            "label": "青春"
+          },
+          {
+            "value": "31",
+            "label": "性转"
+          },
+          {
+            "value": "198",
+            "label": "病娇"
+          },
+          {
+            "value": "217",
+            "label": "妹妹"
+          },
+          {
+            "value": "225",
+            "label": "青梅竹马"
+          },
+          {
+            "value": "18",
+            "label": "战斗"
+          },
+          {
+            "value": "256",
+            "label": "NTR"
+          },
+          {
+            "value": "223",
+            "label": "人外"
+          },
+          {
+            "value": "227",
+            "label": "大小姐"
+          },
+          {
+            "value": "189",
+            "label": "黑暗"
+          },
+          {
+            "value": "68",
+            "label": "悬疑"
+          },
+          {
+            "value": "56",
+            "label": "科幻"
+          },
+          {
+            "value": "201",
+            "label": "伪娘"
+          },
+          {
+            "value": "55",
+            "label": "战争"
+          },
+          {
+            "value": "185",
+            "label": "萝莉"
+          },
+          {
+            "value": "229",
+            "label": "复仇"
+          },
+          {
+            "value": "199",
+            "label": "斗智"
+          },
+          {
+            "value": "131",
+            "label": "异能"
+          },
+          {
+            "value": "241",
+            "label": "猎奇"
+          },
+          {
+            "value": "191",
+            "label": "轻文学"
+          },
+          {
+            "value": "60",
+            "label": "职场"
+          },
+          {
+            "value": "226",
+            "label": "经营"
+          },
+          {
+            "value": "246",
+            "label": "JK"
+          },
+          {
+            "value": "135",
+            "label": "机战"
+          },
+          {
+            "value": "261",
+            "label": "女儿"
+          },
+          {
+            "value": "221",
+            "label": "末日"
+          },
+          {
+            "value": "220",
+            "label": "犯罪"
+          },
+          {
+            "value": "239",
+            "label": "旅行"
+          },
+          {
+            "value": "124",
+            "label": "惊悚"
+          },
+          {
+            "value": "98",
+            "label": "治愈"
+          },
+          {
+            "value": "97",
+            "label": "推理"
+          },
+          {
+            "value": "205",
+            "label": "日本文学"
+          },
+          {
+            "value": "248",
+            "label": "游戏"
+          },
+          {
+            "value": "228",
+            "label": "耽美"
+          },
+          {
+            "value": "211",
+            "label": "美食"
+          },
+          {
+            "value": "245",
+            "label": "群像"
+          },
+          {
+            "value": "249",
+            "label": "大逃杀"
+          },
+          {
+            "value": "233",
+            "label": "音乐"
+          },
+          {
+            "value": "132",
+            "label": "格斗"
+          },
+          {
+            "value": "28",
+            "label": "热血"
+          },
+          {
+            "value": "180",
+            "label": "温馨"
+          },
+          {
+            "value": "224",
+            "label": "脑洞"
+          },
+          {
+            "value": "328",
+            "label": "恶役"
+          },
+          {
+            "value": "304",
+            "label": "JC"
+          },
+          {
+            "value": "254",
+            "label": "间谍"
+          },
+          {
+            "value": "146",
+            "label": "竞技"
+          },
+          {
+            "value": "263",
+            "label": "宅文化"
+          },
+          {
+            "value": "333",
+            "label": "同人"
+          }
+        ],
+        "multiple": true,
+        "separator": "-",
+        "collapsible": true
+      },
+      {
+        "id": "progress",
+        "name": "写作进度",
+        "default": "0",
+        "options": [
+          {
+            "value": "0",
+            "label": "不限"
+          },
+          {
+            "value": "1",
+            "label": "新书上传"
+          },
+          {
+            "value": "2",
+            "label": "情节展开"
+          },
+          {
+            "value": "3",
+            "label": "精彩纷呈"
+          },
+          {
+            "value": "4",
+            "label": "接近尾声"
+          },
+          {
+            "value": "5",
+            "label": "已经完本"
+          }
+        ]
+      },
+      {
+        "id": "anime",
+        "name": "是否动画",
+        "default": "0",
+        "options": [
+          {
+            "value": "0",
+            "label": "不限"
+          },
+          {
+            "value": "1",
+            "label": "已动画化"
+          },
+          {
+            "value": "2",
+            "label": "未动画化"
+          }
+        ]
+      },
+      {
+        "id": "words",
+        "name": "作品字数",
+        "default": "0",
+        "options": [
+          {
+            "value": "0",
+            "label": "不限"
+          },
+          {
+            "value": "1",
+            "label": "30万以下"
+          },
+          {
+            "value": "2",
+            "label": "30-50万"
+          },
+          {
+            "value": "3",
+            "label": "50-100万"
+          },
+          {
+            "value": "4",
+            "label": "100-200万"
+          },
+          {
+            "value": "5",
+            "label": "200万以上"
+          }
+        ]
+      },
+      {
+        "id": "updated",
+        "name": "更新时间",
+        "default": "0",
+        "options": [
+          {
+            "value": "0",
+            "label": "不限"
+          },
+          {
+            "value": "1",
+            "label": "三日内"
+          },
+          {
+            "value": "2",
+            "label": "七日内"
+          },
+          {
+            "value": "3",
+            "label": "半月内"
+          },
+          {
+            "value": "4",
+            "label": "一月内"
+          }
+        ]
+      }
+    ]
+  },
+  "detail": {
+    "catalogUrl": "/novel/{{id}}/catalog",
+    "rules": {
+      "name": "h1.book-name@text",
+      "cover": ".book-cover img, .book-img img@src",
+      "author": ".book-rand-a, .book-author@text",
+      "intro": ".book-dec > p@text",
+      "category": "meta[property=\"og:novel:category\"]@content",
+      "status": "meta[property=\"og:novel:status\"]@content",
+      "updateTime": "meta[property=\"og:novel:update_time\"]@content",
+      "latestChapter": "meta[property=\"og:novel:latest_chapter_name\"]@content"
+    },
+    "url": "/novel/{{id}}.html"
+  },
+  "catalog": {
+    "list": ".chapter-list a[href*=\"/novel/\"]",
+    "name": "@text",
+    "url": "@href"
+  },
+  "content": {
+    "container": "div#TextContent",
+    "removeLinesMatching": [],
+    "unavailable": ".center-note"
+  },
+  "kind": "light"
+}

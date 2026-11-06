@@ -1,0 +1,96 @@
+{
+  "id": "biquge365",
+  "name": "笔趣阁 · 网文",
+  "lang": "zh-CN",
+  "baseUrl": "https://www.biquge365.net",
+  "headers": {},
+  "bookIdPattern": "/book/(\\d+)/",
+  "search": {
+    "url": "/s.php",
+    "method": "POST",
+    "body": "type=articlename&s={{key}}&submit=",
+    "referer": "https://www.biquge365.net/",
+    "rules": {
+      "list": ".search li:not(.fen), table tr",
+      "name": ".name a, td:nth-child(2) a@text",
+      "url": "a[href^=\"/book/\"]@href",
+      "author": ".zuo, td:nth-child(4)@text"
+    }
+  },
+  "detail": {
+    "catalogUrl": "/newbook/{{id}}/",
+    "rules": {
+      "name": "h1@text",
+      "cover": ".zhutu img@src",
+      "author": ".xinxi span.x1@text",
+      "intro": ".xinxi span.x3@text",
+      "category": "meta[property=\"og:novel:category\"]@content",
+      "status": "meta[property=\"og:novel:status\"]@content",
+      "updateTime": ".xinxi .x2@text",
+      "latestChapter": "meta[property=\"og:novel:latest_chapter_name\"]@content"
+    },
+    "url": "/book/{{id}}/"
+  },
+  "catalog": {
+    "list": "ul.info > li > a[href^=\"/chapter/\"]",
+    "name": "@text",
+    "url": "@href"
+  },
+  "content": {
+    "container": "div#txt",
+    "removeLinesMatching": [
+      "一秒记住",
+      "biquge365\\.net",
+      "更新快，无弹窗",
+      "请收藏本站"
+    ]
+  },
+  "discover": {
+    "categories": [
+      {
+        "id": "1",
+        "name": "玄幻魔法"
+      },
+      {
+        "id": "2",
+        "name": "仙侠修真"
+      },
+      {
+        "id": "3",
+        "name": "都市言情"
+      },
+      {
+        "id": "4",
+        "name": "网游动漫"
+      },
+      {
+        "id": "5",
+        "name": "科幻小说"
+      },
+      {
+        "id": "6",
+        "name": "恐怖灵异"
+      },
+      {
+        "id": "7",
+        "name": "历史军事"
+      },
+      {
+        "id": "8",
+        "name": "其他小说"
+      }
+    ],
+    "pagePattern": "/sort/{id}_{page}/",
+    "maxPage": 1,
+    "rules": {
+      "list": "ul.gengxin > li",
+      "name": ".name a@text",
+      "url": ".name a@href",
+      "cover": "img@src"
+    },
+    "pageSize": 10,
+    "upstreamPageSize": 24,
+    "resolveCovers": true
+  },
+  "kind": "novel"
+}
