@@ -49,3 +49,7 @@ $env:HTTPS_PROXY='http://127.0.0.1:7890'
 $env:ELECTRON_GET_USE_PROXY='1'
 npm run desktop:pack
 ```
+
+## 许可证
+
+MIT，详见 [LICENSE](LICENSE)。
