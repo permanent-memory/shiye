@@ -6,7 +6,33 @@ const path = require('node:path');
 const { spawn, spawnSync } = require('node:child_process');
 let instance, starting, idleTimer, active = 0, headed = false;
 const profiles = new Set();
+// Windows stores the user's HTTPS handler in the registry. Prefer it over a
+// hard-coded path, but only when it is a Chromium build: Firefox and friends
+// do not implement CDP, so those fall through to the bundled search order.
+function registryValue(key, name) {
+ try {
+  const result = spawnSync('reg', name ? ['query', key, '/v', name] : ['query', key, '/ve'], { windowsHide: true, encoding: 'utf8' });
+  if (result.status !== 0 || !result.stdout) return null;
+  const match = /REG_(?:SZ|EXPAND_SZ)\s+(.+)/.exec(result.stdout);
+  return match ? match[1].trim() : null;
+ } catch { return null; }
+}
+function defaultBrowser() {
+ if (process.platform !== 'win32') return null;
+ const progId = registryValue('HKCU\\Software\\Microsoft\\Windows\\Shell\\Associations\\UrlAssociations\\https\\UserChoice', 'ProgId');
+ if (!progId) return null;
+ const command = registryValue('HKCR\\' + progId + '\\shell\\open\\command', null);
+ if (!command) return null;
+ const match = /"([^"]+\.exe)"|(\S+\.exe)/i.exec(command);
+ const file = match ? (match[1] || match[2]) : null;
+ return file && fs.existsSync(file) ? file : null;
+}
 function findBrowser() {
+ const preferred = defaultBrowser();
+ if (preferred && /msedge|chrome|brave|opera|vivaldi|thorium|chromium|360|qqbrowser/i.test(path.basename(preferred))) {
+  console.log('[browser] default browser: ' + preferred);
+  return preferred;
+ }
  const roots = [process.env['PROGRAMFILES(X86)'], process.env.PROGRAMFILES, process.env.LOCALAPPDATA].filter(Boolean);
  for (const relative of ['Microsoft/Edge/Application/msedge.exe', 'Google/Chrome/Application/chrome.exe']) {
   for (const root of roots) { const file=path.join(root, relative); if(fs.existsSync(file)) return file; }
